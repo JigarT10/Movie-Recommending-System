@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f2f0ea">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <title>Reel — find your next favorite</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body class="movie-app">
+    <div class="app-shell">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="Reel home">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>reel<span class="brand-dot">.</span></span>
+        </a>
+        <span class="header-note"><span class="header-rule"></span>Find your next favorite</span>
+        <span class="header-index">FILM DISCOVERY <span>/</span> 01</span>
+      </header>
+
+      <main class="page-main">
+        <section class="discovery" aria-labelledby="page-title">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyebrow-dash"></span>A little further from the usual</p>
+            <h1 id="page-title">One film you love.<br><em>Six you haven’t met.</em></h1>
+            <p class="hero-description">
+              Start with a favorite. Find six films with something in common—and a reason to press play.
+            </p>
+            <div class="collection-note">
+              <strong>4,800<span>+</span></strong>
+              <span>titles in the collection<br>one good place to start</span>
+            </div>
+          </div>
+
+          <section class="selection-panel" aria-labelledby="selection-title">
+            <div class="panel-topline">
+              <span class="step-number">01 <span>/ 02</span></span>
+              <span class="panel-caption">Your starting point</span>
+            </div>
+            <h2 id="selection-title">What’s a film you love?</h2>
+            <form id="movie-form" method="post" action="{{ url_for('recommend_page') }}">
+              <label class="field-label" for="movie">Find a title in the collection</label>
+              <div class="movie-input-wrap">
+                <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
+                  <circle cx="8.8" cy="8.8" r="5.8" stroke="currentColor" stroke-width="1.5"></circle>
+                  <path d="m13.1 13.1 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+                </svg>
+                <input
+                  id="movie"
+                  name="movie"
+                  type="search"
+                  list="movie-list"
+                  value="{{ selected_movie|default('', true) }}"
+                  placeholder="Search 4,800+ films"
+                  autocomplete="off"
+                  aria-describedby="catalog-note"
+                  required
+                >
+              </div>
+              <datalist id="movie-list">
+                {% for title in movies['title'] %}
+                <option value="{{ title }}"></option>
+                {% endfor %}
+              </datalist>
+              <p class="catalog-note" id="catalog-note">Choose a title from the collection to continue.</p>
+
+              {% if error %}
+              <p class="inline-error" role="alert">{{ error }}</p>
+              {% endif %}
+
+              <button class="primary-button" type="submit">
+                <span class="button-label">Find 6 similar films</span>
+                <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
+                  <path d="M3.5 10h12M10.5 4.75 15.75 10l-5.25 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </button>
+              <div class="panel-footer">
+                <span>Usually takes a moment</span>
+                <span>Made for the mood you’re in</span>
+              </div>
+            </form>
+          </section>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <span>REEL <span>/</span> A BETTER WAY TO WANDER</span>
+        <span class="footer-rule" aria-hidden="true"></span>
+        <a href="https://replit.com/@JigarThacker/MovieRecommender" target="_blank" rel="noreferrer">Source code</a>
+      </footer>
+    </div>
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+  </body>
+</html>
