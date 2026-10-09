@@ -41,26 +41,29 @@
             <h2 id="selection-title">What’s a film you love?</h2>
             <form id="movie-form" method="post" action="{{ url_for('recommend_page') }}">
               <label class="field-label" for="movie">Find a title in the collection</label>
-              <div class="movie-input-wrap">
-                <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
-                  <circle cx="8.8" cy="8.8" r="5.8" stroke="currentColor" stroke-width="1.5"></circle>
-                  <path d="m13.1 13.1 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
-                </svg>
-                <input
-                  id="movie"
-                  name="movie"
-                  type="search"
-                  list="movie-list"
-                  value="{{ selected_movie|default('', true) }}"
-                  placeholder="Search 4,800+ films"
-                  autocomplete="off"
-                  autocorrect="off"
-                  autocapitalize="off"
-                  spellcheck="false"
-                  enterkeyhint="search"
-                  aria-describedby="catalog-note"
-                  required
-                >
+              <div class="movie-search-field">
+                <div class="movie-input-wrap">
+                  <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
+                    <circle cx="8.8" cy="8.8" r="5.8" stroke="currentColor" stroke-width="1.5"></circle>
+                    <path d="m13.1 13.1 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+                  </svg>
+                  <input
+                    id="movie"
+                    name="movie"
+                    type="search"
+                    list="movie-list"
+                    value="{{ selected_movie|default('', true) }}"
+                    placeholder="Select a name from 4,800+ films"
+                    autocomplete="off"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    enterkeyhint="search"
+                    aria-describedby="catalog-note"
+                    required
+                  >
+                </div>
+                <ul class="movie-dropdown" id="movie-dropdown" role="listbox" aria-label="Movie suggestions" hidden></ul>
               </div>
               <datalist id="movie-list">
                 {% for title in movies['title'] %}
