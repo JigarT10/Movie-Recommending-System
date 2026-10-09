@@ -7,15 +7,25 @@ import requests
 
 load_dotenv()
 
-app = Flask(__name__)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, "templates"),
+    static_folder=os.path.join(BASE_DIR, "static"),
+)
 tmdb_api_key = os.environ.get("TMDB_API_KEY")
 
 
-with open("movies_dict.pkl", "rb") as f:
+with open(os.path.join(BASE_DIR, "movies_dict.pkl"), "rb") as f:
     movies_dict = pickle.load(f)
 movies = pd.DataFrame(movies_dict)
 
-similarity_file = "similarity_46mb.pkl" if os.path.exists("similarity_46mb.pkl") else "similarity.pkl"
+similarity_file = (
+    os.path.join(BASE_DIR, "similarity_46mb.pkl")
+    if os.path.exists(os.path.join(BASE_DIR, "similarity_46mb.pkl"))
+    else os.path.join(BASE_DIR, "similarity.pkl")
+)
 with open(similarity_file, "rb") as f:
     similarity = pickle.load(f)
 
