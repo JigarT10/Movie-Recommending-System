@@ -271,6 +271,7 @@ body.movie-app {
 }
 
 .movie-input-wrap {
+  position: relative;
   height: 46px;
   display: flex;
   align-items: center;
@@ -279,6 +280,7 @@ body.movie-app {
   border: 1px solid #dddfd8;
   border-radius: 3px;
   background: #fffefa;
+  -webkit-tap-highlight-color: transparent;
   transition: border-color 180ms ease, box-shadow 180ms ease;
 }
 
@@ -292,25 +294,94 @@ body.movie-app {
   height: 17px;
   flex: 0 0 auto;
   color: #8a918a;
+  pointer-events: none;
 }
 
 .movie-input-wrap input {
   width: 100%;
   min-width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
   border: 0;
   outline: 0;
   background: transparent;
   color: var(--ink);
   font: inherit;
-  font-size: 13px;
+  font-size: 16px; /* 16px prevents iOS Safari auto-zoom on input focus */
+  line-height: normal;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: none;
 }
 
+@media (min-width: 768px) {
+  .movie-input-wrap input {
+    font-size: 14px;
+  }
+}
+
+/* Normalize placeholder across Firefox, Safari, and Chrome */
 .movie-input-wrap input::placeholder {
   color: #a0a49e;
+  opacity: 1;
 }
 
+/* Remove WebKit search decorations and extra search icons in Safari */
+.movie-input-wrap input::-webkit-search-decoration,
+.movie-input-wrap input::-webkit-search-results-decoration,
+.movie-input-wrap input::-webkit-search-results-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+/* Hide datalist indicator on Android Chrome / Chromium for cross-platform visual consistency */
+.movie-input-wrap input::-webkit-calendar-picker-indicator {
+  display: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Standardized, crisp search clear button across Android and iOS */
 .movie-input-wrap input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-left: 6px;
+  flex-shrink: 0;
   cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23eceae2'/%3E%3Cpath d='M5.5 5.5l5 5M10.5 5.5l-5 5' stroke='%23717a75' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-size: 16px 16px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.movie-input-wrap input::-webkit-search-cancel-button:hover,
+.movie-input-wrap input::-webkit-search-cancel-button:active {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23dedad0'/%3E%3Cpath d='M5.5 5.5l5 5M10.5 5.5l-5 5' stroke='%23202c32' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+/* Prevent bright colored autofill backgrounds on mobile browsers */
+.movie-input-wrap input:-webkit-autofill,
+.movie-input-wrap input:-webkit-autofill:hover,
+.movie-input-wrap input:-webkit-autofill:focus,
+.movie-input-wrap input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #fffefa inset !important;
+  -webkit-text-fill-color: var(--ink) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Datalist defensive reset for legacy mobile browsers */
+datalist {
+  display: none;
 }
 
 .catalog-note {
