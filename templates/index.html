@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#f2f0ea">
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
-    <title>Reel — find your next favorite</title>
+    <title>drift — find your next favorite</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body class="movie-app">
     <div class="app-shell">
       <header class="site-header">
-        <a class="brand" href="/" aria-label="Reel home">
+        <a class="brand" href="/" aria-label="drift home">
           <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span>reel<span class="brand-dot">.</span></span>
+          <span>drift<span class="brand-dot">.</span></span>
         </a>
         <span class="header-note"><span class="header-rule"></span>Find your next favorite</span>
-        <span class="header-index">FILM DISCOVERY <span>/</span> 01</span>
+        <span class="header-index">FILM DISCOVERY</span>
       </header>
 
       <main class="page-main">
@@ -35,7 +35,6 @@
 
           <section class="selection-panel" aria-labelledby="selection-title">
             <div class="panel-topline">
-              <span class="step-number">01 <span>/ 02</span></span>
               <span class="panel-caption">Your starting point</span>
             </div>
             <h2 id="selection-title">What’s a film you love?</h2>
@@ -51,7 +50,6 @@
                     id="movie"
                     name="movie"
                     type="search"
-                    list="movie-list"
                     value="{{ selected_movie|default('', true) }}"
                     placeholder="Select a name from 4,800+ films"
                     autocomplete="off"
@@ -66,7 +64,7 @@
                 <ul class="movie-dropdown" id="movie-dropdown" role="listbox" aria-label="Movie suggestions" hidden></ul>
               </div>
               <datalist id="movie-list">
-                {% for title in movies['title'] %}
+                {% for title in movie_titles %}
                 <option value="{{ title }}"></option>
                 {% endfor %}
               </datalist>
@@ -92,7 +90,7 @@
       </main>
 
       <footer class="site-footer">
-        <span>REEL <span>/</span> A BETTER WAY TO WANDER</span>
+        <span>DRIFT <span>/</span> A BETTER WAY TO WANDER</span>
         <span class="footer-rule" aria-hidden="true"></span>
         <a href="https://replit.com/@JigarThacker/MovieRecommender" target="_blank" rel="noreferrer">Source code</a>
       </footer>

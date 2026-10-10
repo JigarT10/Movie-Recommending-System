@@ -21,16 +21,19 @@ const datalist = document.querySelector("#movie-list");
 const dropdown = document.querySelector("#movie-dropdown");
 
 if (movieInput && datalist && dropdown) {
-  // Extract titles from datalist options once
-  const titles = Array.from(datalist.options)
-    .map((opt) => opt.value.trim())
-    .filter(Boolean);
+  // Extract titles from datalist options once, deduplicated
+  const titles = [...new Set(
+    Array.from(datalist.options)
+      .map((opt) => opt.value.trim())
+      .filter(Boolean)
+  )];
 
   // Disable native OS popup so it doesn't fight the custom styled list
   movieInput.removeAttribute("list");
 
   let activeIndex = -1;
   let currentMatches = [];
+  let debounceTimer = null;
 
   function escapeHtml(text) {
     const div = document.createElement("div");
@@ -88,30 +91,33 @@ if (movieInput && datalist && dropdown) {
   }
 
   movieInput.addEventListener("input", () => {
-    const query = movieInput.value.trim();
-    if (query.length === 0) {
-      dropdown.hidden = true;
-      currentMatches = [];
-      return;
-    }
-
-    const lowerQuery = query.toLowerCase();
-    const startsWith = [];
-    const contains = [];
-
-    for (let i = 0; i < titles.length; i++) {
-      const t = titles[i];
-      const lowerT = t.toLowerCase();
-      if (lowerT.startsWith(lowerQuery)) {
-        startsWith.push(t);
-        if (startsWith.length >= 8) break;
-      } else if (lowerT.includes(lowerQuery)) {
-        contains.push(t);
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const query = movieInput.value.trim();
+      if (query.length === 0) {
+        dropdown.hidden = true;
+        currentMatches = [];
+        return;
       }
-    }
 
-    const matches = [...startsWith, ...contains].slice(0, 4);
-    renderDropdown(matches, query);
+      const lowerQuery = query.toLowerCase();
+      const startsWith = [];
+      const contains = [];
+
+      for (let i = 0; i < titles.length; i++) {
+        const t = titles[i];
+        const lowerT = t.toLowerCase();
+        if (lowerT.startsWith(lowerQuery)) {
+          startsWith.push(t);
+          if (startsWith.length >= 8) break;
+        } else if (lowerT.includes(lowerQuery)) {
+          contains.push(t);
+        }
+      }
+
+      const matches = [...startsWith, ...contains].slice(0, 4);
+      renderDropdown(matches, query);
+    }, 150);
   });
 
   movieInput.addEventListener("keydown", (event) => {
@@ -135,7 +141,14 @@ if (movieInput && datalist && dropdown) {
     }
   });
 
-  dropdown.addEventListener("pointerdown", (event) => {
+  // Prevent mousedown on dropdown from blurring the input,
+  // which would hide the dropdown before click fires.
+  dropdown.addEventListener("mousedown", (event) => {
+    event.preventDefault();
+  });
+
+  // Select item on click (not pointerdown) so mobile touch works.
+  dropdown.addEventListener("click", (event) => {
     const item = event.target.closest(".movie-dropdown-item");
     if (item && item.dataset.index !== undefined) {
       const idx = parseInt(item.dataset.index, 10);
@@ -145,7 +158,9 @@ if (movieInput && datalist && dropdown) {
     }
   });
 
-  document.addEventListener("pointerdown", (event) => {
+  // Dismiss on click outside (not pointerdown) so mobile touch-start
+  // doesn't race with the dropdown item handler.
+  document.addEventListener("click", (event) => {
     if (!movieInput.contains(event.target) && !dropdown.contains(event.target)) {
       dropdown.hidden = true;
     }

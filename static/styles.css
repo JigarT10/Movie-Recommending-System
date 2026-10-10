@@ -427,8 +427,7 @@ body.movie-app {
 }
 
 .movie-dropdown-item {
-  display: flex;
-  align-items: center;
+  display: block;
   padding: 10px 12px;
   border-radius: 3px;
   color: var(--ink);

@@ -64,7 +64,7 @@ def recommend(movie):
 
 @app.route("/")
 def home():
-    return render_template("index.html", movies=movies)
+    return render_template("index.html", movies=movies, movie_titles=sorted(movies["title"].unique()))
 
 
 @app.route("/recommend", methods=["POST"])
@@ -74,6 +74,7 @@ def recommend_page():
         return render_template(
             "index.html",
             movies=movies,
+            movie_titles=sorted(movies["title"].unique()),
             selected_movie=selected_movie_name,
             error="Choose a title from the collection to continue.",
         ), 400

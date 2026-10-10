@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#f2f0ea">
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
-    <title>{% if error %}Recommendations unavailable{% else %}Films like {{ movie }}{% endif %} — Reel</title>
+    <title>{% if error %}Recommendations unavailable{% else %}Films like {{ movie }}{% endif %} — drift</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body class="movie-app">
     <div class="app-shell">
       <header class="site-header">
-        <a class="brand" href="/" aria-label="Reel home">
+        <a class="brand" href="/" aria-label="drift home">
           <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span>reel<span class="brand-dot">.</span></span>
+          <span>drift<span class="brand-dot">.</span></span>
         </a>
         <span class="header-note"><span class="header-rule"></span>Find your next favorite</span>
-        <span class="header-index">FILM DISCOVERY <span>/</span> 02</span>
+        <span class="header-index">FILM DISCOVERY</span>
       </header>
 
       <main class="page-main">
@@ -80,7 +80,7 @@
       </main>
 
       <footer class="site-footer">
-        <span>REEL <span>/</span> A BETTER WAY TO WANDER</span>
+        <span>DRIFT <span>/</span> A BETTER WAY TO WANDER</span>
         <span class="footer-rule" aria-hidden="true"></span>
         <a href="https://replit.com/@JigarThacker/MovieRecommender" target="_blank" rel="noreferrer">Source code</a>
       </footer>
